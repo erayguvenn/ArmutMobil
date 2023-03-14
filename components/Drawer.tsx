@@ -5,13 +5,16 @@ import Notifications from '../pages/Notifications';
 import GetService from '../pages/GetService';
 import MyAccount from '../pages/MyAccount';
 import MyWorks from '../pages/MyWorks';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { createStackNavigator } from '@react-navigation/stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Login from './Login';
 
 
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function DrawerComp() {
+
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -40,9 +43,17 @@ export default function DrawerComp() {
         <Tab.Screen name="Hizmet Al" component={GetService} />
         <Tab.Screen name="İşlerim" component={MyWorks} />
         <Tab.Screen name="Bildirimler" component={Notifications} />
-        <Tab.Screen name="Hesabım" component={MyAccount} />
+        <Tab.Screen name="Hesabım" options={{ headerShown: false }}>
+          {() => (
+            <Stack.Navigator>
+              <Stack.Screen name="Hesabım" component={MyAccount} />
+              <Stack.Screen name="Login" options={{ title: 'Giriş yap' }} component={Login} />
+            </Stack.Navigator>
+          )}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
+
 
   );
 }

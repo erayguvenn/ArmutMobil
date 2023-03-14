@@ -1,12 +1,21 @@
-import { Text, View } from 'react-native'
-import React, { Component } from 'react'
+import React from 'react';
+import { Button } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../types';
 
-export default class MyAccount extends Component {
-    render() {
-        return (
-            <View>
-                <Text>MyAccount</Text>
-            </View>
-        )
-    }
+type MyAccountScreenProps = {
+    navigation: StackNavigationProp<RootStackParamList, 'MyAccount'>;
+};
+
+function MyAccount({ navigation }: MyAccountScreenProps) {
+    const handleGoToLogin = () => {
+        navigation.navigate('Login');
+    };
+
+    return (
+        // MyAccount sayfasının diğer içeriği
+        <Button title="Giriş Yap" onPress={handleGoToLogin} />
+    );
 }
+
+export default MyAccount;
