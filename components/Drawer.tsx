@@ -8,6 +8,7 @@ import MyWorks from '../pages/MyWorks';
 import { createStackNavigator } from '@react-navigation/stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Login from './Login';
+import DefaultPage from './DefaultPage';
 
 
 const Stack = createStackNavigator();
@@ -21,7 +22,7 @@ export default function DrawerComp() {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-            if (route.name === 'Hizmet Al') {
+            if (route.name === 'GetService') {
               iconName = focused ? 'shopping-cart' : 'shopping-cart';
             } else if (route.name === 'İşlerim') {
               iconName = focused ? 'work' : 'work-outline';
@@ -40,13 +41,21 @@ export default function DrawerComp() {
           tabBarInactiveTintColor: 'gray',
         })}
       >
-        <Tab.Screen name="Hizmet Al" component={GetService} />
-        <Tab.Screen name="İşlerim" component={MyWorks} />
+        <Tab.Screen name="GetService" options={{ title: 'Hizmet Al' }} component={GetService} />
+        <Tab.Screen name="İşlerim" options={{ headerShown: false }} >
+          {() => (
+            <Stack.Navigator>
+              <Stack.Screen name="DefaultPage" options={{ headerShown: false }} component={DefaultPage} />
+              <Stack.Screen name="MyWorks" options={{ title: 'İşlerim' }} component={MyWorks} />
+              <Stack.Screen name="Login" options={{ title: 'Giriş yap' }} component={Login} />
+            </Stack.Navigator>
+          )}
+        </Tab.Screen>
         <Tab.Screen name="Bildirimler" component={Notifications} />
         <Tab.Screen name="Hesabım" options={{ headerShown: false }}>
           {() => (
             <Stack.Navigator>
-              <Stack.Screen name="Hesabım" component={MyAccount} />
+              <Stack.Screen name="MyAccout" component={MyAccount} />
               <Stack.Screen name="Login" options={{ title: 'Giriş yap' }} component={Login} />
             </Stack.Navigator>
           )}

@@ -13,7 +13,6 @@ function MyAccount({ navigation }: MyAccountScreenProps) {
     };
 
     return (
-        // MyAccount sayfasının diğer içeriği
         <Button title="Giriş Yap" onPress={handleGoToLogin} />
     );
 }
