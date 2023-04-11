@@ -9,6 +9,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Login from './Login';
 import DefaultPage from './DefaultPage';
+import MyAccountAfterLogin from './MyAccountAfterLogin';
+import MyAccountInformation from '../pages/MyAccountInformation';
+import ChangePassword from '../pages/ChangePassword';
+import AddCreditCard from '../pages/AddCreditCard';
+import ContactHizmetim from '../pages/ContactHizmetim';
+
 
 
 const Stack = createStackNavigator();
@@ -24,11 +30,11 @@ export default function DrawerComp() {
             let iconName;
             if (route.name === 'GetService') {
               iconName = focused ? 'shopping-cart' : 'shopping-cart';
-            } else if (route.name === 'İşlerim') {
+            } else if (route.name === 'MyWorks') {
               iconName = focused ? 'work' : 'work-outline';
-            } else if (route.name === 'Bildirimler') {
+            } else if (route.name === 'Notifications') {
               iconName = focused ? 'notifications' : 'notifications-none';
-            } else if (route.name === 'Hesabım') {
+            } else if (route.name === 'MyAccount') {
               iconName = focused ? 'person' : 'person-outline';
             }
             return iconName ? (
@@ -42,7 +48,7 @@ export default function DrawerComp() {
         })}
       >
         <Tab.Screen name="GetService" options={{ title: 'Hizmet Al' }} component={GetService} />
-        <Tab.Screen name="İşlerim" options={{ headerShown: false }} >
+        <Tab.Screen name="MyWorks" options={{ headerShown: false,title:"İşlerim" }} >
           {() => (
             <Stack.Navigator>
               <Stack.Screen name="DefaultPage" options={{ headerShown: false }} component={DefaultPage} />
@@ -51,18 +57,21 @@ export default function DrawerComp() {
             </Stack.Navigator>
           )}
         </Tab.Screen>
-        <Tab.Screen name="Bildirimler" component={Notifications} />
-        <Tab.Screen name="Hesabım" options={{ headerShown: false }}>
+        <Tab.Screen name="Notifications" options={{title:"Bildirimler"}} component={Notifications}/> 
+        <Tab.Screen name="MyAccount" options={{ headerShown: false,title:"Hesabım" }}>
           {() => (
             <Stack.Navigator>
-              <Stack.Screen name="MyAccout" component={MyAccount} />
-              <Stack.Screen name="Login" options={{ title: 'Giriş yap' }} component={Login} />
+              <Stack.Screen name="MyAccount" component={MyAccount} />
+              <Stack.Screen name="MyAccountAfterLogin" options={{ title: 'Hesabım' }} component={MyAccountAfterLogin} />
+              <Stack.Screen name="MyAccountInformation" options={{ title: 'Hesap Bilgilerim' }} component={MyAccountInformation} />
+              <Stack.Screen name="ChangePassword" options={{ title: 'Şifre Değiştir' }} component={ChangePassword} />
+              <Stack.Screen name="AddCreditCard" options={{ title: 'Kredi Kartı Ekle' }} component={AddCreditCard} />
+              <Stack.Screen name="GetService" options={{ title: 'Hizmet Al' }} component={GetService} />
+              <Stack.Screen name="ContactHizmetim" options={{ title: 'Hizmetime Ulaş' }} component={ContactHizmetim} />
             </Stack.Navigator>
           )}
         </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
-
-
   );
 }

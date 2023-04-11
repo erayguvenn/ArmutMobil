@@ -12,7 +12,7 @@ const CardGroup = ({ data }: CardGroupProps) => {
             <FlatList
                 data={data}
                 renderItem={({ item }) => (
-                    <Card title={item.title} content={item.content} />
+                    <Card title={item.title} imageUrl={item.imageUrl}/>
                 )}
                 keyExtractor={item => item.id}
                 horizontal={true}

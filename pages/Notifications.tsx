@@ -1,12 +1,15 @@
-import { Text, View } from 'react-native'
-import React, { Component } from 'react'
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity,ScrollView,Image } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types";
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-export default class Notifications extends Component {
-    render() {
-        return (
-            <View>
-                <Text>Notifications</Text>
-            </View>
-        )
-    }
-}
+
+const Notifications = () => {
+    return (
+      <View>
+          <Text>Notifications</Text>
+      </View>
+    );
+};
+export default Notifications;
