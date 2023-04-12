@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View,ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import CardGroup from '../components/CardGroup';
+import axios from 'axios';
+
+interface IService {
+    id: string;
+    name: string;
+    imageUrl: string;
+    parentId: number;
+}
 
 const temizlik = [
     {
@@ -105,36 +113,86 @@ const tamir = [
     },
 ];
 
-export class GetService extends Component {
+
+const baseURL = 'http://3.127.53.229:60001/api/Workcategories';
+
+
+interface IState {
+    responseData: IService[];
+    isLoading: boolean;
+    error: Error | null;
+}
+
+export class GetService extends Component<{}, IState> {
+    state: IState = {
+        responseData: [],
+        isLoading: false,
+        error: null,
+    };
+
+    componentDidMount() {
+        this.setState({ isLoading: true });
+
+        axios
+            .get(baseURL)
+            .then((response) => {
+                this.setState({ responseData: response.data, isLoading: false });
+            })
+            .catch((error) => {
+                this.setState({ error, isLoading: false });
+                console.error(error);
+            });
+    }
     render() {
+        const { responseData, isLoading, error } = this.state;
+
+        if (isLoading) {
+            return <Text>Loading...</Text>;
+        }
+
+        if (error) {
+            return <Text>{error.message}</Text>;
+        }
         return (
             <ScrollView>
                 <View style={{ flex: 1, marginTop: 25, marginRight: 10 }}>
                     <Text style={styles.cardTitle}>Temizlik</Text>
-                    <CardGroup data={temizlik} />
+                    {responseData && (
+                        <CardGroup data={responseData.filter((item) => item.parentId == 1)} />
+                    )}
                 </View>
                 <View style={{ flex: 1, marginTop: 25, marginRight: 10 }}>
                     <Text style={styles.cardTitle}>Nakliyat ve Depolama</Text>
-                    <CardGroup data={nakliyat} />
+                    {responseData && (
+                        <CardGroup data={responseData.filter((item) => item.parentId == 3)} />
+                    )}
                 </View>
                 <View style={{ flex: 1, marginTop: 25, marginRight: 10 }}>
                     <Text style={styles.cardTitle}>Tadilat, Dekorasyon ve İnşaat</Text>
-                    <CardGroup data={tadilat} />
+                    {responseData && (
+                        <CardGroup data={responseData.filter((item) => item.parentId == 2)} />
+                    )}
                 </View>
                 <View style={{ flex: 1, marginTop: 25, marginRight: 10 }}>
                     <Text style={styles.cardTitle}>Özel Ders</Text>
-                    <CardGroup data={ozelDers} />
+                    {responseData && (
+                        <CardGroup data={responseData.filter((item) => item.parentId == 5)} />
+                    )}
                 </View>
                 <View style={{ flex: 1, marginTop: 25, marginRight: 10 }}>
                     <Text style={styles.cardTitle}>Sağlık ve Güzellik</Text>
-                    <CardGroup data={saglik} />
+                    {responseData && (
+                        <CardGroup data={responseData.filter((item) => item.parentId == 6)} />
+                    )}
                 </View>
                 <View style={{ flex: 1, marginTop: 25, marginRight: 10 }}>
                     <Text style={styles.cardTitle}>Montaj ve Tamir</Text>
-                    <CardGroup data={tamir} />
+                    {responseData && (
+                        <CardGroup data={responseData.filter((item) => item.parentId == 4)} />
+                    )}
                 </View>
             </ScrollView>
-                
+
         )
     }
 }

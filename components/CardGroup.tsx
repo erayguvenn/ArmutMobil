@@ -12,7 +12,7 @@ const CardGroup = ({ data }: CardGroupProps) => {
             <FlatList
                 data={data}
                 renderItem={({ item }) => (
-                    <Card title={item.title} imageUrl={item.imageUrl}/>
+                    <Card title={item.name} imageUrl={item.imageUrl || require('../assets/images/00191-ev-temizligi_thumb_875x500.webp')} />
                 )}
                 keyExtractor={item => item.id}
                 horizontal={true}
@@ -21,7 +21,6 @@ const CardGroup = ({ data }: CardGroupProps) => {
         </View>
     );
 };
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
