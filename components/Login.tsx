@@ -1,13 +1,48 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import axios from 'axios';
+import { loginRequest } from './authActions';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [userId, setUserId] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState({});
 
-  const handleLogin = () => {
-    // login işlemleri burada yapılabilir
+
+  useEffect(() => {
+    if (userId) {
+      handleGetUserData();
+    }
+  }, [userId]);
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://3.127.53.229:60001/api/Auth/login', {
+        email,
+        password,
+      });
+      setUserId(response.data);
+      console.log(response.data);
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const handleGetUserData = async () => {
+    try {
+      const response = await axios.get(`http://3.127.53.229:60002/api/User/${userId}`);
+      console.log(response.data);
+      setUserData(response.data);
+    } catch (error) {
+      console.log(userId)
+      console.error(error);
+    }
+  };
+
 
   return (
     <View style={styles.container}>
@@ -65,11 +100,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 20,
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  userInfo: {
+    fontSize: 16,
+    marginBottom: 10,
   },
 });
 

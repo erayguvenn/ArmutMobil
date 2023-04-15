@@ -28,11 +28,7 @@ const temizlik = [
     },
 ];
 const nakliyat = [
-    {
-        id: '1',
-        title: 'Evden Eve Nakliyat',
-        imageUrl: require('../assets/images/00142-evden-eve-nakliyat.webp'),
-    },
+
     {
         id: '2',
         title: 'Şehirler Arası Nakliye',

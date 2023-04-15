@@ -1,13 +1,16 @@
-import React ,{useState} from "react";
-import { View, Text, StyleSheet, TouchableOpacity,ScrollView } from "react-native";
+import React, { useState, useContext } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import { useSelector } from 'react-redux';
 
 const MyAccountInformation = () => {
+
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
+
 
     return (
         <ScrollView>
@@ -50,12 +53,12 @@ const MyAccountInformation = () => {
                 <View>
                     <Text style={styles.label}>Adres</Text>
                     <TextInput style={styles.inputAdres}
-                     placeholder="Adres yaz"
-                     multiline={true}
-                     numberOfLines={4}
-                     onChangeText={(text) => setAddress(text)}
-                     value={address}
-                     >
+                        placeholder="Adres yaz"
+                        multiline={true}
+                        numberOfLines={4}
+                        onChangeText={(text) => setAddress(text)}
+                        value={address}
+                    >
                     </TextInput>
                 </View>
                 <TouchableOpacity style={styles.button}>
@@ -63,7 +66,8 @@ const MyAccountInformation = () => {
                 </TouchableOpacity>
             </View>
         </ScrollView>
-    )};
+    )
+};
 
 const styles = StyleSheet.create({
     baslik: {
@@ -74,7 +78,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         color: 'black',
     },
-    input:{
+    input: {
         width: '90%',
         height: 40,
         borderColor: '#AEC2B6',
@@ -85,13 +89,13 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         fontSize: 16,
     },
-    label:{
-        fontWeight:'bold',
-        marginBottom:5,
-        marginLeft:20,
+    label: {
+        fontWeight: 'bold',
+        marginBottom: 5,
+        marginLeft: 20,
         color: 'black',
     },
-    inputAdres:{
+    inputAdres: {
         width: '90%',
         height: 90,
         borderColor: '#AEC2B6',
