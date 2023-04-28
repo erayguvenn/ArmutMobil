@@ -11,6 +11,8 @@ type RootStackParamList = {
     ChangePassword: undefined;
     AddCreditCard: undefined;
     ContactHizmetim: undefined;
+    AfterSelectService: undefined;
+    Card: undefined;
     // Diğer sayfalar ve parametreleri
 };
 
@@ -52,4 +54,12 @@ type AddCreditCardScreenProps = {
 type ContactHizmetimScreenProps = {
     navigation: StackNavigationProp<RootStackParamList, 'ContactHizmetim'>;
 };
-export type { RootStackParamList, LoginScreenProps, MyAccountScreenProps, GetServiceScreenProps, MyWorksScreenProps,MyAccountAferLoginScreenProps,NotificationsScreenProps,MyAccountInformationScreenProps,ChangePasswordScreenProps,AddCreditCardScreenProps,ContactHizmetimScreenProps };
+
+type AfterSelectServiceScreenProps = {
+    navigation: StackNavigationProp<RootStackParamList, 'AfterSelectService'>;
+};
+
+type CardScreenProps = {
+    navigation: StackNavigationProp<RootStackParamList, 'Card'>;
+};
+export type { RootStackParamList, LoginScreenProps, MyAccountScreenProps, GetServiceScreenProps, MyWorksScreenProps,MyAccountAferLoginScreenProps,NotificationsScreenProps,MyAccountInformationScreenProps,ChangePasswordScreenProps,AddCreditCardScreenProps,ContactHizmetimScreenProps,AfterSelectServiceScreenProps,CardScreenProps };

@@ -14,6 +14,7 @@ import MyAccountInformation from '../pages/MyAccountInformation';
 import ChangePassword from '../pages/ChangePassword';
 import AddCreditCard from '../pages/AddCreditCard';
 import ContactHizmetim from '../pages/ContactHizmetim';
+import AfterSelectService from '../pages/AfterSelectService';
 
 
 
@@ -47,7 +48,14 @@ export default function DrawerComp() {
           tabBarInactiveTintColor: 'gray',
         })}
       >
-        <Tab.Screen name="GetService" options={{ title: 'Hizmet Al' }} component={GetService} />
+        <Tab.Screen name="GetService" options={{ headerShown: false,title:"Hizmet Al" }} >
+          {() => (
+            <Stack.Navigator>
+              <Stack.Screen name="GetService" options={{ headerShown: false }} component={GetService} />
+              <Stack.Screen name="AfterSelectService" options={{ title: 'Ev Temizliği' }} component={AfterSelectService} />
+            </Stack.Navigator>
+          )}
+        </Tab.Screen>
         <Tab.Screen name="MyWorks" options={{ headerShown: false,title:"İşlerim" }} >
           {() => (
             <Stack.Navigator>

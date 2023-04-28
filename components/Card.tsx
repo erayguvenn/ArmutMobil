@@ -1,20 +1,31 @@
 import React from 'react';
-import { View, Text, StyleSheet,Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types";
 
 interface CardProps {
     title: string;
     imageUrl: any;
 }
 
-const Card = ({ title,imageUrl }: CardProps) => {
+type CardScreenProps = {
+    navigation: StackNavigationProp<RootStackParamList, 'AfterSelectService'>;
+};
+
+function Card  ({ title, imageUrl, navigation }: CardProps & CardScreenProps) {
+    const handleGoToAfterSelectService = () => {
+        navigation.navigate('AfterSelectService');
+    };
     return (
-        <View style={styles.card}>
-            <Image
-              source={imageUrl}
-              style={styles.resim}
-            />
-            <Text style={styles.title}>{title}</Text>
-        </View>
+        <TouchableOpacity onPress={handleGoToAfterSelectService}>
+            <View style={styles.card}>
+                <Image
+                    source={imageUrl}
+                    style={styles.resim}
+                />
+                <Text style={styles.title}>{title}</Text>
+            </View>
+        </TouchableOpacity>
     );
 };
 
@@ -37,14 +48,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
-    resim:{
+    resim: {
         width: 160,
         height: 130,
         marginBottom: 7,
-        borderRadius:8,
+        borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
-      },
+    },
 });
 
-export default Card
+export default Card;
