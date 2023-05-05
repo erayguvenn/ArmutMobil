@@ -27,8 +27,13 @@ const Login = () => {
         password,
       });
       setUserId(response.data);
-      //console.log(response.data);
-      setIsLoggedIn(true);
+      console.log(response.headers["set-cookie"]);
+      const setCookie = response.headers["set-cookie"];
+      if (setCookie !== undefined) {
+        await AsyncStorage.setItem('authToken', JSON.stringify(setCookie));
+      }
+      await AsyncStorage.setItem('isLoggedIn', 'true');
+
     } catch (error) {
       console.error(error);
     }
@@ -37,7 +42,7 @@ const Login = () => {
   const handleGetUserData = async () => {
     try {
       const response = await axios.get(`http://3.127.53.229:60002/api/User/${userId}`);
-      console.log(response.data);
+      //console.log(response.data);
       setUserData(response.data);
       try {
         await AsyncStorage.setItem('userData', JSON.stringify(response.data));
