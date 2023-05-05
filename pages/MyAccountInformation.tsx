@@ -1,7 +1,18 @@
 import React, { useState, useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+
+const getUserData = async () => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('userData')
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+        // error reading value
+        console.log(e);
+    }
+}
 
 const MyAccountInformation = () => {
 
@@ -11,6 +22,18 @@ const MyAccountInformation = () => {
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
 
+    getUserData().then((data: any) => {
+        setName(data.name);
+        setSurname(data.surname);
+        setEmail(data.email);
+        setPhone(data.phoneNumber);
+        setAddress(data.address);
+        //console.log(data, "1");
+
+    });
+    async function saveChanges() {
+        console.log(name, surname, email, phone, address);
+    }
 
     return (
         <ScrollView>
@@ -61,7 +84,7 @@ const MyAccountInformation = () => {
                     >
                     </TextInput>
                 </View>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={saveChanges}>
                     <Text style={styles.buttonText}>Kaydet</Text>
                 </TouchableOpacity>
             </View>

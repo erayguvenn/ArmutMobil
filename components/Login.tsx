@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { loginRequest } from './authActions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 
 const Login = () => {
@@ -25,7 +27,7 @@ const Login = () => {
         password,
       });
       setUserId(response.data);
-      console.log(response.data);
+      //console.log(response.data);
       setIsLoggedIn(true);
     } catch (error) {
       console.error(error);
@@ -37,6 +39,15 @@ const Login = () => {
       const response = await axios.get(`http://3.127.53.229:60002/api/User/${userId}`);
       console.log(response.data);
       setUserData(response.data);
+      try {
+        await AsyncStorage.setItem('userData', JSON.stringify(response.data));
+        // console.log(await AsyncStorage.getItem('userData'));
+        console.log('User data saved successfully');
+      } catch (error) {
+        console.log('Error saving user data: ', error);
+      }
+
+
     } catch (error) {
       console.log(userId)
       console.error(error);
