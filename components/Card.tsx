@@ -1,20 +1,34 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types";
 
 interface CardProps {
     title: string;
     imageUrl: any;
 }
 
+type afterSelect = {
+    navigation: StackNavigationProp<RootStackParamList, 'AfterSelectService'>;
+};
+
+const openSelectService = ({ navigation }: afterSelect) => {
+    console.log("Hizmet seçildi");
+    navigation.navigate('AfterSelectService');
+
+}
+
 const Card = ({ title, imageUrl }: CardProps) => {
     return (
-        <View style={styles.card}>
-            <Image
-                source={imageUrl}
-                style={styles.resim}
-            />
-            <Text style={styles.title}>{title}</Text>
-        </View>
+        <TouchableOpacity onPress={() => openSelectService}>
+            <View style={styles.card}>
+                <Image
+                    source={imageUrl}
+                    style={styles.resim}
+                />
+                <Text style={styles.title}>{title}</Text>
+            </View>
+        </TouchableOpacity>
     );
 };
 
