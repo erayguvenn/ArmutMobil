@@ -23,7 +23,7 @@ const Card = ({ title, imageUrl }: CardProps) => {
         <TouchableOpacity onPress={() => openSelectService}>
             <View style={styles.card}>
                 <Image
-                    source={imageUrl}
+                    source={{ uri: imageUrl }}
                     style={styles.resim}
                 />
                 <Text style={styles.title}>{title}</Text>
