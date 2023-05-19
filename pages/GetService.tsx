@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TextInput, Image } from 'react-native';
 import CardGroup from '../components/CardGroup';
 import axios from 'axios';
 
@@ -12,11 +12,12 @@ interface IService {
 
 const baseURL = 'http://3.127.53.229:60001/api/Workcategories';
 
-
 interface IState {
     responseData: IService[];
     isLoading: boolean;
     error: Error | null;
+    searchText: string;
+    filteredData: IService[];
 }
 
 export class GetService extends Component<{}, IState> {
@@ -24,6 +25,8 @@ export class GetService extends Component<{}, IState> {
         responseData: [],
         isLoading: false,
         error: null,
+        searchText: '',
+        filteredData: [],
     };
 
     componentDidMount() {
@@ -39,8 +42,17 @@ export class GetService extends Component<{}, IState> {
                 console.error(error);
             });
     }
+
+    handleSearch = () => {
+        const { responseData, searchText } = this.state;
+        const filteredData = responseData.filter(
+            (item) => item.name.toLowerCase().includes(searchText.toLowerCase())
+        );
+        this.setState({ filteredData });
+    };
+
     render() {
-        const { responseData, isLoading, error } = this.state;
+        const { responseData, isLoading, error, searchText, filteredData } = this.state;
 
         if (isLoading) {
             return <Text>Loading...</Text>;
@@ -49,8 +61,28 @@ export class GetService extends Component<{}, IState> {
         if (error) {
             return <Text>{error.message}</Text>;
         }
+
         return (
             <ScrollView>
+                <View style={styles.headerContainer}>
+                    <View style={styles.searchContainer}>
+                        <TextInput
+                            style={styles.searchInput}
+                            placeholder="İş Ara..."
+                            value={searchText}
+                            onChangeText={(text) => this.setState({ searchText: text })}
+                        />
+                        <TouchableOpacity style={styles.searchButton} onPress={this.handleSearch}>
+                            <Text style={styles.searchButtonText}>ARA</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                {filteredData.length > 0 && (
+                    <>
+                        <Text style={styles.resultText}>Sonuçlar:</Text>
+                        <CardGroup data={filteredData} />
+                    </>
+                )}
                 <View style={{ flex: 1, marginTop: 25, marginRight: 10 }}>
                     <Text style={styles.cardTitle}>Temizlik</Text>
                     {responseData && (
@@ -88,12 +120,48 @@ export class GetService extends Component<{}, IState> {
                     )}
                 </View>
             </ScrollView>
-
-        )
+        );
     }
 }
 
 const styles = StyleSheet.create({
+    headerContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 20,
+    },
+    searchContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 20,
+    },
+    searchInput: {
+        flex: 1,
+        height: 40,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        marginRight: 10,
+        padding: 8,
+        borderRadius: 10,
+    },
+    searchButton: {
+        padding: 10,
+        backgroundColor: '#2cb34f',
+        borderRadius: 5,
+    },
+    searchButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
+    },
+    resultText: {
+        marginLeft: 20,
+        marginTop: 10,
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: 'black',
+    },
     cardTitle: {
         marginLeft: 15,
         marginBottom: 10,
@@ -103,5 +171,4 @@ const styles = StyleSheet.create({
     },
 });
 
-
-export default GetService
+export default GetService;
