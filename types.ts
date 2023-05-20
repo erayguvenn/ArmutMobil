@@ -53,4 +53,8 @@ type AddCreditCardScreenProps = {
 type ContactHizmetimScreenProps = {
     navigation: StackNavigationProp<RootStackParamList, 'ContactHizmetim'>;
 };
-export type { RootStackParamList, LoginScreenProps, MyAccountScreenProps, GetServiceScreenProps, MyWorksScreenProps, MyAccountAferLoginScreenProps, NotificationsScreenProps, MyAccountInformationScreenProps, ChangePasswordScreenProps, AddCreditCardScreenProps, ContactHizmetimScreenProps };
+
+type AfterSelectServiceScreenProps = {
+    navigation: StackNavigationProp<RootStackParamList, 'AfterSelectService'>;
+};
+export type { RootStackParamList, LoginScreenProps, MyAccountScreenProps, GetServiceScreenProps, MyWorksScreenProps, MyAccountAferLoginScreenProps, NotificationsScreenProps, MyAccountInformationScreenProps, ChangePasswordScreenProps, AddCreditCardScreenProps, ContactHizmetimScreenProps, AfterSelectServiceScreenProps };
