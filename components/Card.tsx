@@ -23,18 +23,16 @@ const onPressButton = () => {
 
 const Card = ({ title, imageUrl }: CardProps) => {
     return (
-        <TouchableOpacity onPress={openSelectService}>
-            <View style={styles.card}>
-                <Image
-                    source={{ uri: imageUrl }}
-                    style={styles.resim}
-                />
-                <Text style={styles.title}>{title}</Text>
-                <TouchableOpacity style={styles.button} onPress={onPressButton}>
-                    <Text style={styles.buttonText}>Teklif Al</Text>
-                </TouchableOpacity>
-            </View>
-        </TouchableOpacity>
+        <View style={styles.card}>
+            <Image
+                source={{ uri: imageUrl }}
+                style={styles.resim}
+            />
+            <Text style={styles.title}>{title}</Text>
+            <TouchableOpacity style={styles.button} onPress={onPressButton}>
+                <Text style={styles.buttonText}>Teklif Al</Text>
+            </TouchableOpacity>
+        </View>
     );
 };
 
