@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity,ScrollView,Image,Alert,Linking
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 type MyAccountAferLoginScreenProps = {
@@ -37,6 +38,17 @@ function MyAccountAfterLogin({ navigation }: MyAccountAferLoginScreenProps) {
   };
   const handleGoToContactHizmetim = () => {
     navigation.navigate('ContactHizmetim');
+  };
+
+  const handleLogout = async () => {
+    try {
+      // AsyncStorage'deki verileri temizle
+      await AsyncStorage.multiRemove(['authToken', 'isLoggedIn', 'userData']);
+      // Login sayfasına yönlendir
+      navigation.navigate('Login');
+    } catch (error) {
+      console.error('Çıkış yaparken bir hata oluştu:', error);
+    }
   };
 
   return (
@@ -115,7 +127,7 @@ function MyAccountAfterLogin({ navigation }: MyAccountAferLoginScreenProps) {
             <MaterialIcons style={styles.ikon} name="chevron-right"/>
           </TouchableOpacity>
           <View style={styles.cizgi}/>
-          <TouchableOpacity style={styles.secenekContainer}>
+          <TouchableOpacity style={styles.secenekContainer} onPress={handleLogout}>
             <Text style={styles.secenek}>
               Çıkış yap
             </Text>
