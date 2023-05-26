@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Notifications from '../pages/Notifications';
@@ -15,6 +15,7 @@ import ChangePassword from '../pages/ChangePassword';
 import AddCreditCard from '../pages/AddCreditCard';
 import ContactHizmetim from '../pages/ContactHizmetim';
 import AfterSelectService from '../pages/AfterSelectService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -22,6 +23,22 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function DrawerComp() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      try {
+        const value = await AsyncStorage.getItem('isLoggedIn');
+        if (value !== null) {
+          // AsyncStorage'den okunan değeri kullanarak isLoggedIn durumunu güncelleyin
+          setIsLoggedIn(JSON.parse(value));
+        }
+      } catch (error) {
+        console.log('AsyncStorage hatası:', error);
+      }
+    };
+    checkLoggedIn();
+  }, []);
 
   return (
     <NavigationContainer>
@@ -56,15 +73,34 @@ export default function DrawerComp() {
             </Stack.Navigator>
           )}
         </Tab.Screen>
-        <Tab.Screen name="MyWorks" options={{ headerShown: false, title: "İşlerim" }} >
+        <Tab.Screen
+          name="MyWorks"
+          options={{ headerShown: false, title: 'İşlerim' }}
+        >
           {() => (
             <Stack.Navigator>
-              <Stack.Screen name="DefaultPage" options={{ headerShown: false }} component={DefaultPage} />
-              <Stack.Screen name="MyWorks" options={{ title: 'İşlerim' }} component={MyWorks} />
-              <Stack.Screen name="Login" options={{ title: 'Giriş yap' }} component={Login} />
+              {isLoggedIn ? (
+                <Stack.Screen
+                  name="MyWorks"
+                  options={{ title: 'İşlerim' }}
+                  component={MyWorks}
+                />
+              ) : (
+                <Stack.Screen
+                  name="DefaultPage"
+                  options={{ headerShown: false }}
+                  component={DefaultPage}
+                />
+              )}
+              <Stack.Screen
+                name="Login"
+                options={{ title: 'Giriş yap' }}
+                component={Login}
+              />
             </Stack.Navigator>
           )}
         </Tab.Screen>
+
         <Tab.Screen name="Notifications" options={{ title: "Bildirimler" }} component={Notifications} />
         <Tab.Screen name="MyAccount" options={{ headerShown: false, title: "Hesabım" }}>
           {() => (
