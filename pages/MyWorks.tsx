@@ -143,7 +143,7 @@ export default class MyWorks extends Component {
                             />
                             <View style={styles.modalButtonsContainer}>
                                 <Button title="Vazgeç" onPress={this.handleModalClose} color="#888" />
-                                <Button title="Teklif Gönder" onPress={this.handleTeklifGonder} />
+                                <Button title="Teklif Gönder" onPress={this.handleTeklifGonder} color="#2cb34f" />
                             </View>
                         </View>
                     </Modal>
