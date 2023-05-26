@@ -50,7 +50,7 @@ export default function DrawerComp() {
               iconName = focused ? 'shopping-cart' : 'shopping-cart';
             } else if (route.name === 'MyWorks') {
               iconName = focused ? 'work' : 'work-outline';
-            } else if (route.name === 'Notifications') {
+            } else if (route.name === 'Teklifler') {
               iconName = focused ? 'notifications' : 'notifications-none';
             } else if (route.name === 'MyAccount') {
               iconName = focused ? 'person' : 'person-outline';
@@ -101,12 +101,28 @@ export default function DrawerComp() {
           )}
         </Tab.Screen>
 
-        <Tab.Screen name="Notifications" options={{ title: "Bildirimler" }} component={Notifications} />
-        <Tab.Screen name="MyAccount" options={{ headerShown: false, title: "Hesabım" }}>
+        <Tab.Screen name="Teklifler" options={{ headerShown: false }} >
           {() => (
             <Stack.Navigator>
-              <Stack.Screen name="MyAccount" component={MyAccount} />
-              <Stack.Screen name="MyAccountAfterLogin" options={{ title: 'Hesabım' }} component={MyAccountAfterLogin} />
+              {isLoggedIn ? (
+                <Stack.Screen name="Notifications" options={{ title: 'Teklifler' }} component={Notifications} />
+              ) : (
+                <Stack.Screen name="DefaultPage" options={{ headerShown: false }} component={DefaultPage} />
+              )}
+            </Stack.Navigator>
+          )}
+        </Tab.Screen>
+
+
+        <Tab.Screen name="MyAccount" options={{ headerShown: false, title: "Hesabım" }}>
+          {() => (
+
+            <Stack.Navigator>
+              {isLoggedIn ? (
+                <Stack.Screen name="MyAccountAfterLogin" options={{ title: 'Hesabım' }} component={MyAccountAfterLogin} />
+              ) : (
+                <Stack.Screen name="DefaultPage" options={{ headerShown: false }} component={DefaultPage} />
+              )}
               <Stack.Screen name="MyAccountInformation" options={{ title: 'Hesap Bilgilerim' }} component={MyAccountInformation} />
               <Stack.Screen name="ChangePassword" options={{ title: 'Şifre Değiştir' }} component={ChangePassword} />
               <Stack.Screen name="AddCreditCard" options={{ title: 'Kredi Kartı Ekle' }} component={AddCreditCard} />
@@ -116,6 +132,6 @@ export default function DrawerComp() {
           )}
         </Tab.Screen>
       </Tab.Navigator>
-    </NavigationContainer>
+    </NavigationContainer >
   );
 }
