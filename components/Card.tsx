@@ -15,18 +15,24 @@ type afterSelect = {
 const openSelectService = ({ navigation }: afterSelect) => {
     console.log("Hizmet seçildi");
     navigation.navigate('AfterSelectService');
+};
 
-}
+const onPressButton = () => {
+    // Boş bir fonksiyon
+};
 
 const Card = ({ title, imageUrl }: CardProps) => {
     return (
-        <TouchableOpacity onPress={() => openSelectService}>
+        <TouchableOpacity onPress={openSelectService}>
             <View style={styles.card}>
                 <Image
                     source={{ uri: imageUrl }}
                     style={styles.resim}
                 />
                 <Text style={styles.title}>{title}</Text>
+                <TouchableOpacity style={styles.button} onPress={onPressButton}>
+                    <Text style={styles.buttonText}>Teklif Al</Text>
+                </TouchableOpacity>
             </View>
         </TouchableOpacity>
     );
@@ -43,22 +49,34 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 2,
-        width: 160,
-        height: 160,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 16,
     },
     title: {
         fontSize: 14,
         fontWeight: 'bold',
         textAlign: 'center',
+        marginTop: 8,
     },
     resim: {
         width: 160,
         height: 130,
         marginBottom: 7,
         borderRadius: 8,
-        justifyContent: 'center',
-        alignItems: 'center',
+    },
+    button: {
+        backgroundColor: '#2cb34f',
+        paddingVertical: 8,
+        borderRadius: 4,
+        marginTop: 8,
+        width: '80%',
+    },
+    buttonText: {
+        color: 'white',
+        textAlign: 'center',
+        fontWeight: 'bold',
     },
 });
 
-export default Card
+export default Card;
