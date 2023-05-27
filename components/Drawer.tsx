@@ -128,6 +128,7 @@ export default function DrawerComp() {
               <Stack.Screen name="MyAccountInformation" options={{ title: 'Hesap Bilgilerim' }} component={MyAccountInformation} />
               <Stack.Screen name="ChangePassword" options={{ title: 'Şifre Değiştir' }} component={ChangePassword} />
               <Stack.Screen name="AddCreditCard" options={{ title: 'Kredi Kartı Ekle' }} component={AddCreditCard} />
+              <Stack.Screen name="ContactHizmetim" options={{ title: 'Hizmetim' }} component={ContactHizmetim} />
             </Stack.Navigator>
           )}
         </Tab.Screen>

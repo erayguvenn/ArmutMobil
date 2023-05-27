@@ -6,6 +6,7 @@ import { RootStackParamList } from "../types";
 interface CardProps {
     title: string;
     imageUrl: any;
+    ruleTemplate: any;
 }
 
 type afterSelect = {
@@ -21,7 +22,7 @@ const onPressButton = () => {
     // Boş bir fonksiyon
 };
 
-const Card = ({ title, imageUrl }: CardProps) => {
+const Card = ({ title, imageUrl, ruleTemplate }: CardProps) => {
     return (
         <View style={styles.card}>
             <Image
