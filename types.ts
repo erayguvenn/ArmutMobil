@@ -6,6 +6,7 @@ type RootStackParamList = {
     GetService: undefined;
     MyWorks: undefined;
     MyAccountAfterLogin: undefined;
+    DefaultPage: undefined;
     Notifications: undefined;
     MyAccountInformation: undefined;
     ChangePassword: undefined;
@@ -30,7 +31,7 @@ type MyWorksScreenProps = {
     navigation: StackNavigationProp<RootStackParamList, 'MyWorks'>;
 };
 
-type MyAccountAferLoginScreenProps = {
+type MyAccountAfterLoginScreenProps = {
     navigation: StackNavigationProp<RootStackParamList, 'MyAccountAfterLogin'>;
 };
 
@@ -53,4 +54,4 @@ type AddCreditCardScreenProps = {
 type ContactHizmetimScreenProps = {
     navigation: StackNavigationProp<RootStackParamList, 'ContactHizmetim'>;
 };
-export type { RootStackParamList, LoginScreenProps, MyAccountScreenProps, GetServiceScreenProps, MyWorksScreenProps, MyAccountAferLoginScreenProps, NotificationsScreenProps, MyAccountInformationScreenProps, ChangePasswordScreenProps, AddCreditCardScreenProps, ContactHizmetimScreenProps };
+export type { RootStackParamList, LoginScreenProps, MyAccountScreenProps, GetServiceScreenProps, MyWorksScreenProps, MyAccountAfterLoginScreenProps, NotificationsScreenProps, MyAccountInformationScreenProps, ChangePasswordScreenProps, AddCreditCardScreenProps, ContactHizmetimScreenProps };

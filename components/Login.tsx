@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
-import { loginRequest } from './authActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { LoginScreenProps } from '../types';
 
-
-const Login = () => {
+const Login = ({ navigation }: LoginScreenProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userId, setUserId] = useState('');
@@ -47,6 +45,7 @@ const Login = () => {
       try {
         await AsyncStorage.setItem('userData', JSON.stringify(response.data));
         // console.log(await AsyncStorage.getItem('userData'));
+        navigation.navigate('GetService')
         console.log('User data saved successfully');
       } catch (error) {
         console.log('Error saving user data: ', error);
