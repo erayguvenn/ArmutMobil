@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Alert, Linking, Button } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList, MyAccountAfterLoginScreenProps } from "../types";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 type MyAccountAferLoginScreenProps = {
@@ -25,9 +24,6 @@ function MyAccountAfterLogin({ navigation }: MyAccountAferLoginScreenProps) {
   const handleGoToHizmetAl = () => {
     navigation.navigate('GetService');
   };
-  const handleGoToMyAccountAfterLogin = () => {
-    navigation.navigate('MyAccountAfterLogin');
-  };
   const evulateTheHizmetim = () => {
     Alert.alert(
       "Hizmetim",
@@ -43,13 +39,6 @@ function MyAccountAfterLogin({ navigation }: MyAccountAferLoginScreenProps) {
   const handleGoToContactHizmetim = () => {
     navigation.navigate('ContactHizmetim');
   };
-  const logout = async () => {
-    await AsyncStorage.setItem('isLoggedIn', 'false');
-    await AsyncStorage.setItem('userData', "");
-    console.log("logout");
-    navigation.navigate('GetService');
-
-  }
 
   return (
     <ScrollView>
@@ -127,7 +116,7 @@ function MyAccountAfterLogin({ navigation }: MyAccountAferLoginScreenProps) {
           <MaterialIcons style={styles.ikon} name="chevron-right" />
         </TouchableOpacity>
         <View style={styles.cizgi} />
-        <TouchableOpacity style={styles.secenekContainer} onPress={logout} >
+        <TouchableOpacity style={styles.secenekContainer}>
           <Text style={styles.secenek}>
             Çıkış yap
           </Text>
