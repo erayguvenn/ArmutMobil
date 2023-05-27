@@ -42,13 +42,14 @@ export default function DrawerComp() {
 
   return (
     <NavigationContainer>
+
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-            if (route.name === 'GetService') {
+            if (route.name === 'GetServiceMain') {
               iconName = focused ? 'shopping-cart' : 'shopping-cart';
-            } else if (route.name === 'MyWorks') {
+            } else if (route.name === 'MyWorksMain') {
               iconName = focused ? 'work' : 'work-outline';
             } else if (route.name === 'Teklifler') {
               iconName = focused ? 'notifications' : 'notifications-none';
@@ -65,7 +66,7 @@ export default function DrawerComp() {
           tabBarInactiveTintColor: 'gray',
         })}
       >
-        <Tab.Screen name="GetService" options={{ headerShown: false, title: "Hizmet Al" }} >
+        <Tab.Screen name="GetServiceMain" options={{ headerShown: false, title: "Hizmet Al" }} >
           {() => (
             <Stack.Navigator>
               <Stack.Screen name="GetService" options={{ headerShown: false }} component={GetService} />
@@ -74,7 +75,7 @@ export default function DrawerComp() {
           )}
         </Tab.Screen>
         <Tab.Screen
-          name="MyWorks"
+          name="MyWorksMain"
           options={{ headerShown: false, title: 'İşlerim' }}
         >
           {() => (
@@ -92,11 +93,7 @@ export default function DrawerComp() {
                   component={DefaultPage}
                 />
               )}
-              <Stack.Screen
-                name="Login"
-                options={{ title: 'Giriş yap' }}
-                component={Login}
-              />
+
             </Stack.Navigator>
           )}
         </Tab.Screen>
@@ -123,11 +120,14 @@ export default function DrawerComp() {
               ) : (
                 <Stack.Screen name="DefaultPage" options={{ headerShown: false }} component={DefaultPage} />
               )}
+              <Stack.Screen
+                name="Login"
+                options={{ title: 'Giriş yap' }}
+                component={Login}
+              />
               <Stack.Screen name="MyAccountInformation" options={{ title: 'Hesap Bilgilerim' }} component={MyAccountInformation} />
               <Stack.Screen name="ChangePassword" options={{ title: 'Şifre Değiştir' }} component={ChangePassword} />
               <Stack.Screen name="AddCreditCard" options={{ title: 'Kredi Kartı Ekle' }} component={AddCreditCard} />
-              <Stack.Screen name="GetService" options={{ title: 'Hizmet Al' }} component={GetService} />
-              <Stack.Screen name="ContactHizmetim" options={{ title: 'Hizmetime Ulaş' }} component={ContactHizmetim} />
             </Stack.Navigator>
           )}
         </Tab.Screen>

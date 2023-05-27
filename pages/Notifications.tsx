@@ -77,7 +77,6 @@ export default class Notifications extends Component {
     if (!data) {
       return <Text>No data available</Text>;
     }
-
     return data.map((items, index) => (
       <View key={index}>
         <Text style={styles.sectionTitle}>{index + 1}. iş</Text>
