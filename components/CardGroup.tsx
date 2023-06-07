@@ -12,7 +12,7 @@ const CardGroup = ({ data }: CardGroupProps) => {
             <FlatList
                 data={data}
                 renderItem={({ item }) => (
-                    <Card title={item.name} ruleTemplate={item.rule_template} imageUrl={item.pictureUrl || require('../assets/images/00191-ev-temizligi_thumb_875x500.webp')} />
+                    <Card title={item.name} ruleTemplate={item.ruleTemplate} imageUrl={item.pictureUrl || require('../assets/images/00191-ev-temizligi_thumb_875x500.webp')} />
                 )}
                 keyExtractor={item => item.id}
                 horizontal={true}
