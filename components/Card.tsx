@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Modal, Button, TextInput, ScrollView } from 'react-native';
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+
 
 interface CardProps {
     title: string;
@@ -23,6 +26,22 @@ const Card = ({ title, imageUrl, ruleTemplate }: CardProps) => {
     const [currentPage, setCurrentPage] = useState(0);
     const [ruleTemplateString, setRuleTemplateString] = useState(ruleTemplate);
     const [answer, setAnswer] = useState('');
+    const [answers, setAnswers] = useState<string[]>([]);
+    const [userId, setUserId] = useState(0);
+
+    const getUserData = async () => {
+        try {
+            const userData = await AsyncStorage.getItem('userData');
+            if (userData !== null) {
+                const parsedUserData = JSON.parse(userData);
+                const { id } = parsedUserData;
+                setUserId(id);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    getUserData();
 
     const openModal = () => {
         setModalVisible(true);
@@ -37,11 +56,14 @@ const Card = ({ title, imageUrl, ruleTemplate }: CardProps) => {
         const ruleTemplateString = JSON.parse(ruleTemplate);
         setRuleTemplateString(ruleTemplateString);
         setCurrentPage(0);
+        setAnswers([]); // Cevapları sıfırla
         openModal();
     };
 
     const goToNextPage = () => {
-        setCurrentPage(currentPage + 1);
+        if (answers[currentPage]) { // Mevcut sayfada cevap seçilmişse ileri git
+            setCurrentPage(currentPage + 1);
+        }
     };
 
     const goToPreviousPage = () => {
@@ -56,24 +78,65 @@ const Card = ({ title, imageUrl, ruleTemplate }: CardProps) => {
         );
     };
 
-    const renderChoices = (choices: string[]) => {
+    const renderChoices = (choices: string[], index: number) => {
         if (!choices || choices[0] === "") {
             return (
                 <TextInput
                     style={styles.input}
                     placeholder="Cevabınızı girin"
-                    onChangeText={text => setAnswer(text)}
+                    onChangeText={text => handleAnswerChange(text, index)}
+                    value={answers[index] || ''}
                 />
             );
         }
 
-        return choices.map((choice, index) => (
-            <TouchableOpacity key={`choice_${index}`} style={styles.choiceButton}>
+        return choices.map((choice, choiceIndex) => (
+            <TouchableOpacity
+                key={`choice_${choiceIndex}`}
+                style={[styles.choiceButton, { backgroundColor: answers[index] === choice ? 'black' : '#2cb34f' }]}
+                onPress={() => handleChoiceClick(choice, index)}
+            >
                 <Text style={styles.choiceText}>{choice}</Text>
             </TouchableOpacity>
         ));
     };
 
+    const handleAnswerChange = (text: string, index: number) => {
+        const updatedAnswers = [...answers];
+        updatedAnswers[index] = text;
+        setAnswers(updatedAnswers);
+    };
+
+    const handleChoiceClick = (choice: string, index: number) => {
+        const updatedAnswers = [...answers];
+        updatedAnswers[index] = choice;
+        setAnswers(updatedAnswers);
+    };
+
+    const handleSave = () => {
+        const inputData = {
+            sorular: ruleTemplateString.map((item: any) => item.question),
+            cevaplar: answers,
+        };
+        const ruleFill = JSON.stringify(inputData);
+        const data = {
+            categoryId: 1,
+            state: "waiting_approval",
+            userId: userId,
+            ruleFill: ruleFill,
+        };
+        postData(data);
+    };
+    const postData = async (data: any) => {
+        try {
+            const response = await axios.post('http://3.127.53.229:60001/api/WorkListing/worklist', data);
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+        closeModal();
+
+    };
 
     return (
         <View style={styles.card}>
@@ -98,13 +161,16 @@ const Card = ({ title, imageUrl, ruleTemplate }: CardProps) => {
                     </TouchableOpacity>
                     <View style={styles.modalContent}>
                         {renderQuestion(ruleTemplateString[currentPage].question)}
-                        {renderChoices(ruleTemplateString[currentPage].choices)}
+                        {renderChoices(ruleTemplateString[currentPage].choices, currentPage)}
                         <View style={styles.buttonContainer}>
                             <Button title="Geri" onPress={goToPreviousPage} disabled={currentPage === 0} />
-                            <Button title="İleri" onPress={goToNextPage} disabled={currentPage === ruleTemplateString.length - 1} />
+                            {currentPage === ruleTemplateString.length - 1 ? (
+                                <Button title="Kaydet" onPress={handleSave} />
+                            ) : (
+                                <Button title="İleri" onPress={goToNextPage} disabled={!answers[currentPage]} />
+                            )}
                         </View>
                     </View>
-
                 </View>
             </Modal>
         </View>
